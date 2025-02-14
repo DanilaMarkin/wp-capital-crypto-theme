@@ -663,6 +663,37 @@ dialog[close] {
 }
 /* -----------------------------ENd model sign----------------------------- */
 
+/* -----------------------------START archive.php----------------------------- */
+.categories__tag {
+  padding: 40px 0;
+}
+
+.categories__tag-list {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.categories__tag-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 14px 30px;
+  border-radius: 14px;
+  box-shadow: 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 0.5px 3px 0px rgba(0, 0, 0, 0.1);
+}
+.categories__tag-item.active {
+  border: 1px solid #171851;
+  background: #f5f5f5;
+  box-shadow: 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 0.5px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* -----------------------------ENd archive.php----------------------------- */
+
 /* -----------------------------START Responsive 768px----------------------------- */
 @media (max-width: 768px) {
   /* -----------------------------START header----------------------------- */
@@ -919,5 +950,18 @@ dialog[close] {
     border: 0.827px solid #171851;
   }
   /* -----------------------------ENd model sign----------------------------- */
+
+  /* -----------------------------START archive.php----------------------------- */
+  .categories__tag {
+    padding: 30px 0;
+  }
+
+  .categories__tag-item {
+    padding: 9px 14.5px;
+    border-radius: 60px;
+    background: #DEDEDE;
+    box-shadow: unset;
+  }
+  /* -----------------------------END archive.php----------------------------- */
 }
 /* -----------------------------END Responsive 768px----------------------------- */

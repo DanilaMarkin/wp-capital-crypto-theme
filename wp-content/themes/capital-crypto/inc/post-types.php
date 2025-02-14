@@ -1,30 +1,32 @@
 <?php
 function custom_post_types()
 {
-    // Регистрация типа "Статьи"
+    // Регистрируем тип записей "Статьи"
     register_post_type('articles', array(
-        'labels'      => array(
-            'name'          => __('Статьи', 'textdomain'),
-            'singular_name' => __('Статья', 'textdomain'),
+        'labels' => array(
+            'name' => 'Статьи',
+            'singular_name' => 'Статья'
         ),
-        'public'      => true,
+        'public' => true,
         'has_archive' => true,
-        'rewrite'     => array('slug' => 'articles'),
-        'supports'    => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author', 'revisions'),
-        'taxonomies'  => array(), // Таксономии добавим отдельно
+        'show_in_nav_menus' => true, // Должно быть true!
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+        'rewrite' => array('slug' => 'articles'),
     ));
 
-    // Регистрация типа "Новости"
+    // Регистрируем тип записей "Новости"
     register_post_type('news', array(
-        'labels'      => array(
-            'name'          => __('Новости', 'textdomain'),
-            'singular_name' => __('Новость', 'textdomain'),
+        'labels' => array(
+            'name' => 'Новости',
+            'singular_name' => 'Новость'
         ),
-        'public'      => true,
+        'public' => true,
         'has_archive' => true,
-        'rewrite'     => array('slug' => 'news'),
-        'supports'    => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author', 'revisions'),
-        'taxonomies'  => array(), // Таксономии добавим отдельно
+        'show_in_nav_menus' => true, // Должно быть true!
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+        'rewrite' => array('slug' => 'news'),
     ));
 }
 add_action('init', 'custom_post_types');
+// Добавить в поддержку щаблона "Изображение записи"
+add_theme_support('post-thumbnails');

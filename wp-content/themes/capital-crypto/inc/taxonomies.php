@@ -11,6 +11,7 @@ function custom_taxonomies()
         'hierarchical'      => true, 
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'article-category'),
+        'show_in_nav_menus' => true,
     ));
 
     // Теги для статей
@@ -35,6 +36,7 @@ function custom_taxonomies()
         'hierarchical'      => true,
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'news-category'),
+        'show_in_nav_menus' => true,
     ));
 
     // Теги для новостей

@@ -40,48 +40,9 @@ custom_header();
         <section class="content__section-articles">
             <h2 class="content__section-title">Статьи</h2>
             <ul class="content__articles-list">
-                <li class="content__articles-item">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/articles-1.png" alt="" class="content__articles-img">
-                    <div class="content__articles_info">
-                        <h3 class="content__articles-heading">Тенденции в блокчейне и стартапах WEB3: анализ на SOLAR</h3>
-                        <p class="content__articles-text">В январе 2025 года начнётся продажа токенов проекта Solayer. Продажа начнётся 13 января в 13:00 по московском. test test test test</p>
-                        <div class="content__articles-meta">
-                            <div class="content__articles-date">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/watch.svg" alt="" class="content__articles-date-icon">
-                                <p class="content__articles-date-text">11.01.2025</p>
-                            </div>
-                            <span class="content__articles-tag">#Трейдинг</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="content__articles-item">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/articles-2.png" alt="" class="content__articles-img">
-                    <div class="content__articles_info">
-                        <h3 class="content__articles-heading">Тенденции в блокчейне и стартапах WEB3: анализ на SOLAR</h3>
-                        <p class="content__articles-text">В январе 2025 года начнётся продажа токенов проекта Solayer. Продажа начнётся 13 января в 13:00 по московском. test test test test</p>
-                        <div class="content__articles-meta">
-                            <div class="content__articles-date">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/watch.svg" alt="" class="content__articles-date-icon">
-                                <p class="content__articles-date-text">11.01.2025</p>
-                            </div>
-                            <span class="content__articles-tag">#Трейдинг</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="content__articles-item">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/articles-3.png" alt="" class="content__articles-img">
-                    <div class="content__articles_info">
-                        <h3 class="content__articles-heading">Тенденции в блокчейне и стартапах WEB3: анализ на SOLAR</h3>
-                        <p class="content__articles-text">В январе 2025 года начнётся продажа токенов проекта Solayer. Продажа начнётся 13 января в 13:00 по московском. test test test test</p>
-                        <div class="content__articles-meta">
-                            <div class="content__articles-date">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/watch.svg" alt="" class="content__articles-date-icon">
-                                <p class="content__articles-date-text">11.01.2025</p>
-                            </div>
-                            <span class="content__articles-tag">#Трейдинг</span>
-                        </div>
-                    </div>
-                </li>
+                <?php
+                custom_cart();
+                ?>
             </ul>
         </section>
     </main>

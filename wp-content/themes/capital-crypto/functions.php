@@ -1,4 +1,5 @@
 <?php
+require_once get_template_directory() . '/inc/walkers.php';
 require_once get_template_directory() . '/inc/post-types.php';
 require_once get_template_directory() . '/inc/taxonomies.php';
 
@@ -37,12 +38,41 @@ function custom_sidemenu()
 add_action("get_sidemenu", "custom_sidemenu");
 // Кастомное меню(конец)
 
-// Регистрация меню(начало)
-// Регистрация меню(конец)
+// Регистрация меню и подвала(начало)
+function register_menus()
+{
+    register_nav_menus(array(
+        "sidemenu" => __("Боковое меню"),
+    ));
+}
+add_action("after_setup_theme", "register_menus");
+// Регистрация меню и подвала(конец)
+
+// Кастомная карта блока(начало)
+function custom_cart()
+{
+    get_template_part("templates/partials/cart");
+}
+add_action("get_cart", "custom_cart");
+// Кастомная карта блока(конец)
+
+// Кастомная страница категории статьи и новости(начало)
+function custom_article_category_template($template)
+{
+    if (is_tax('article_category')) {
+        $new_template = locate_template('templates/articles/archive.php');
+        if (!empty($new_template)) {
+            return $new_template;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'custom_article_category_template');
+// Кастомная страница категории статьи и новости(конец)
 
 // Добавление шаблона к постам(начало)
-add_filter('theme_post_templates', function ($templates) {
-    $templates['templates/articles/single.php'] = 'Payment and Delivery';
+add_filter('theme_articles_templates', function ($templates) {
+    $templates['templates/articles/single.php'] = 'Страница статьи';
 
     return $templates;
 });
