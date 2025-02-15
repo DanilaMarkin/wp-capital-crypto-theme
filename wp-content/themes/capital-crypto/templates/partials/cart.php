@@ -12,9 +12,11 @@ $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
 <li class="content__articles-item">
     <img src="<?= esc_url($image_url); ?>" alt="<?= esc_attr($image_alt); ?>" title="<?= esc_attr($image_title); ?>" class="content__articles-img">
     <div class="content__articles_info">
-        <h3 class="content__articles-heading">
-            <a href="<?= get_permalink(); ?>"><?= get_the_title(); ?></a>
-        </h3>
+        <a href="<?= get_permalink(); ?>">
+            <h3 class="content__articles-heading">
+                <?= get_the_title(); ?>
+            </h3>
+        </a>
         <p class="content__articles-text"><?= get_the_excerpt(); ?></p>
         <div class="content__articles-meta">
             <div class="content__articles-date">

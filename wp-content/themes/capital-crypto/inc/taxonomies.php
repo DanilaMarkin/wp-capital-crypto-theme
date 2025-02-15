@@ -12,6 +12,7 @@ function custom_taxonomies()
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'article-category'),
         'show_in_nav_menus' => true,
+        'show_in_rest'      => true, // Включаем поддержку Gutenberg
     ));
 
     // Теги для статей
@@ -24,6 +25,7 @@ function custom_taxonomies()
         'hierarchical'      => false, 
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'article-tag'),
+        'show_in_rest'      => true, // Включаем поддержку Gutenberg
     ));
 
     // Категории для новостей
@@ -37,6 +39,7 @@ function custom_taxonomies()
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'news-category'),
         'show_in_nav_menus' => true,
+        'show_in_rest'      => true, // Включаем поддержку Gutenberg
     ));
 
     // Теги для новостей
@@ -49,6 +52,7 @@ function custom_taxonomies()
         'hierarchical'      => false,
         'show_admin_column' => true,
         'rewrite'           => array('slug' => 'news-tag'),
+        'show_in_rest'      => true, // Включаем поддержку Gutenberg
     ));
 }
 add_action('init', 'custom_taxonomies');

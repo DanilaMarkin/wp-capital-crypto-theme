@@ -6,21 +6,24 @@ custom_header();
     <?php custom_sidemenu(); ?>
 
     <main class="content">
+        <?php
+        yoast_breadcrumb('<div class="custom-breadcrumbs">', '</div>');
+        ?>
         <h1 class="content__title"><?= single_term_title('', false);  ?></h1>
         <section class="categories">
-            <div class="categories__tag">
-                <?php
-                $parent_id = get_queried_object_id(); // Получаем ID текущей категории
+            <?php
+            $parent_id = get_queried_object_id(); // Получаем ID текущей категории
 
-                // Получаем подкатегории текущей категории
-                $subcategories = get_terms([
-                    'taxonomy'   => 'article_category', // Указываем таксономию категорий статей
-                    'parent'     => $parent_id, // Только подкатегории текущей
-                    'hide_empty' => false, // Показываем даже пустые категории
-                ]);
+            // Получаем подкатегории текущей категории
+            $subcategories = get_terms([
+                'taxonomy'   => 'article_category', // Указываем таксономию категорий статей
+                'parent'     => $parent_id, // Только подкатегории текущей
+                'hide_empty' => false, // Показываем даже пустые категории
+            ]);
 
-                // Проверяем, есть ли подкатегории
-                if (!empty($subcategories)) { ?>
+            // Проверяем, есть ли подкатегории
+            if (!empty($subcategories)) { ?>
+                <div class="categories__tag">
                     <ul class="categories__tag-list">
                         <?php
                         foreach ($subcategories as $subcategory) {
@@ -35,8 +38,8 @@ custom_header();
                             </li>
                         <?php } ?>
                     </ul>
-                <?php } ?>
-            </div>
+                </div>
+            <?php } ?>
             <div class="categories__cart">
                 <ul class="content__articles-list">
                     <?php

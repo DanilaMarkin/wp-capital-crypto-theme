@@ -11,6 +11,8 @@ function custom_post_types()
         'has_archive' => true,
         'show_in_nav_menus' => true, // Должно быть true!
         'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+        // Поддержка Guttenberg
+        'show_in_rest' => true,
         'rewrite' => array('slug' => 'articles'),
     ));
 
@@ -24,7 +26,8 @@ function custom_post_types()
         'has_archive' => true,
         'show_in_nav_menus' => true, // Должно быть true!
         'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
-        'rewrite' => array('slug' => 'news'),
+        // Поддержка Guttenberg
+        'show_in_rest' => true,
     ));
 }
 add_action('init', 'custom_post_types');

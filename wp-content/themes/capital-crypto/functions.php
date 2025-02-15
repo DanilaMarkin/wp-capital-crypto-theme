@@ -77,3 +77,16 @@ add_filter('theme_articles_templates', function ($templates) {
     return $templates;
 });
 // Добавление шаблона к постам(конец)
+
+// Кастомизация хлебных крошек, чтобы исключить "Статьи"
+add_filter('wpseo_breadcrumb_links', 'remove_articles_from_breadcrumbs');
+
+function remove_articles_from_breadcrumbs($links) {
+    foreach ($links as $key => $link) {
+        // Если это ссылка на архив типа записей "articles", удаляем
+        if (isset($link['text']) && $link['text'] == 'Статьи') {
+            unset($links[$key]);
+        }
+    }
+    return $links;
+}
