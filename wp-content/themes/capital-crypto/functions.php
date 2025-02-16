@@ -1,7 +1,9 @@
 <?php
 require_once get_template_directory() . '/inc/walkers.php';
-require_once get_template_directory() . '/inc/post-types.php';
-require_once get_template_directory() . '/inc/taxonomies.php';
+add_action('after_setup_theme', function () {
+    require_once get_template_directory() . '/inc/post-types.php';
+    require_once get_template_directory() . '/inc/taxonomies.php';
+});
 
 // Подключение кастомных CSS стилей(начало)
 function capital_crypto_enqueue_styles()
@@ -19,7 +21,6 @@ function custom_header()
 {
     get_template_part('templates/partials/head');
 }
-add_action('get_header', 'custom_header');
 // Кастомная шапка(конец)
 
 // Кастомный подвал(начало)
@@ -27,7 +28,6 @@ function custom_footer()
 {
     get_template_part('templates/partials/footer');
 }
-add_action('get_footer', 'custom_footer');
 // Кастомный подвал(конец)
 
 // Кастомное меню(начало)
@@ -35,8 +35,14 @@ function custom_sidemenu()
 {
     get_template_part("templates/partials/sidemenu");
 }
-add_action("get_sidemenu", "custom_sidemenu");
 // Кастомное меню(конец)
+
+// Кастомная карта блока(начало)
+function custom_cart()
+{
+    get_template_part("templates/partials/cart");
+}
+// Кастомная карта блока(конец)
 
 // Регистрация меню и подвала(начало)
 function register_menus()
@@ -47,14 +53,6 @@ function register_menus()
 }
 add_action("after_setup_theme", "register_menus");
 // Регистрация меню и подвала(конец)
-
-// Кастомная карта блока(начало)
-function custom_cart()
-{
-    get_template_part("templates/partials/cart");
-}
-add_action("get_cart", "custom_cart");
-// Кастомная карта блока(конец)
 
 // Кастомная страница категории статьи и новости(начало)
 function custom_article_category_template($template)
@@ -78,10 +76,18 @@ add_filter('theme_articles_templates', function ($templates) {
 });
 // Добавление шаблона к постам(конец)
 
-// Кастомизация хлебных крошек, чтобы исключить "Статьи"
-add_filter('wpseo_breadcrumb_links', 'remove_articles_from_breadcrumbs');
+// Добавление шаблона к страницам(начало)
+add_filter('theme_page_templates', function ($templates) {
+    $templates['templates/pages/privacy-policy.php'] = 'Политика конфиденциальности';
+    $templates['templates/pages/about-us.php'] = 'О нас';
 
-function remove_articles_from_breadcrumbs($links) {
+    return $templates;
+});
+// Добавление шаблона к страницам(конец)
+
+// Кастомизация хлебных крошек, чтобы исключить "Статьи" и "Новости"(начало)
+function remove_articles_from_breadcrumbs($links)
+{
     foreach ($links as $key => $link) {
         // Если это ссылка на архив типа записей "articles", удаляем
         if (isset($link['text']) && $link['text'] == 'Статьи') {
@@ -90,3 +96,5 @@ function remove_articles_from_breadcrumbs($links) {
     }
     return $links;
 }
+add_filter('wpseo_breadcrumb_links', 'remove_articles_from_breadcrumbs');
+// Кастомизация хлебных крошек, чтобы исключить "Статьи" и "Новости"(конец)

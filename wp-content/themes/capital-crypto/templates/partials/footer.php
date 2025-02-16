@@ -28,7 +28,7 @@
                         </button>
                     </li>
                     <li class="footer__menu-link-policy-item">
-                        <a href="" class="footer__menu-link-policy">
+                        <a href="<?= get_permalink(104); ?>" class="footer__menu-link-policy">
                             Политика конфиденциальности 
                         </a>
                     </li>
@@ -36,7 +36,7 @@
 
                 <ul class="footer__social-list">
                     <li class="footer__social-item">
-                        <a href="" class="footer__social-link">
+                        <a href="<?= get_permalink(125); ?>" class="footer__social-link">
                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/about_us.svg" alt="">
                             <p>О нас</p>
                         </a>
@@ -206,6 +206,10 @@
     </dialog>
     <!-- modal sign-in mail -->
 </footer>
+
+<!-- Подключение admin-bar -->
+<?php wp_footer(); ?>
+<!-- Подключение admin-bar -->
 
 </body>
 

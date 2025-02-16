@@ -11,13 +11,25 @@ custom_header();
         ?>
         <section class="information">
             <div class="information__wrapper">
-
                 <div class="information__header">
                     <div class="information__header-author">
-                        <!-- to do -->
+                        <?php
+                        // Получаем ID автора
+                        $author_id = get_the_author_meta('ID');
+
+                        // Получаем имя автора
+                        $author_name = get_the_author();
+
+                        // Получаем аватар пользователя (использует плагин User Profile Picture)
+                        $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_attr($author_name), array('class' => 'information__header-author-img'));
+                        ?>
+                        <?= $author_avatar; ?>
+                        <span class="information__header-author-name"><?= $author_name; ?></span>
                     </div>
                     <div class="information__header-date">
-                        <!-- to do -->
+                        <img src="<?= get_template_directory_uri() ?>/assets/icons/watch.svg" alt="" class="information__header-date-img">
+                        <span class="information__header-date-current"><?= get_the_date('j F Y года'); ?>
+                        </span>
                     </div>
                 </div>
 
