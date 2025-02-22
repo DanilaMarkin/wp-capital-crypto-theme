@@ -6,7 +6,7 @@ $image_id = get_post_thumbnail_id(get_the_ID());
 $image_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
 
 // Получаем атрибуты title и alt
-$image_title = get_the_title($image_id); // title изображения
+$image_title = get_the_title($image_id);
 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
 ?>
 <li class="content__articles-item">

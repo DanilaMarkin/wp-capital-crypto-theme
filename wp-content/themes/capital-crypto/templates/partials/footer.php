@@ -27,11 +27,13 @@
                             Профиль автора
                         </button>
                     </li>
-                    <li class="footer__menu-link-policy-item">
-                        <a href="<?= get_permalink(104); ?>" class="footer__menu-link-policy">
-                            Политика конфиденциальности 
-                        </a>
-                    </li>
+                    <?php if (get_permalink(104)) { ?>
+                        <li class="footer__menu-link-policy-item">
+                            <a href="<?= get_permalink(104); ?>" class="footer__menu-link-policy">
+                                Политика конфиденциальности 
+                            </a>
+                        </li>
+                    <?php } ?>
                 </ul>
 
                 <ul class="footer__social-list">
@@ -78,16 +80,20 @@
                         </li>
                     </ul>
                     <ul class="footer__general">
-                        <li class="footer__general-item">
-                            <a href="" class="footer__general-link">
-                                Правила использования 
-                            </a>
-                        </li>
-                        <li class="footer__general-item">
-                            <a href="" class="footer__general-link">
-                                Политика обработки персональных данных
-                            </a>
-                        </li>
+                        <?php if (get_permalink(178)) { ?>
+                            <li class="footer__general-item">
+                                <a href="<?= get_permalink(178); ?>" class="footer__general-link">
+                                    Правила использования 
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <?php if (get_permalink(180)) { ?>
+                            <li class="footer__general-item">
+                                <a href="<?= get_permalink(180); ?>" class="footer__general-link">
+                                    Политика обработки персональных данных
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

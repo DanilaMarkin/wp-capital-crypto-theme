@@ -176,7 +176,6 @@ body {
   opacity: 1;
   visibility: visible;
 }
-
 /* -----------------------------END general style----------------------------- */
 
 /* -----------------------------START header----------------------------- */
@@ -731,6 +730,23 @@ dialog[close] {
   box-shadow: inset 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1),
     inset 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1);
 }
+
+.categories__cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(30px, 4vw, 40px);
+}
+
+.categories__cart-all-btn {
+  cursor: pointer;
+  color: #171851;
+  padding: 13px 46px;
+  font-size: var(--text-m);
+  border-radius: 60px;
+  border: 0.5px solid #171851;
+  background: #f5f5f5;
+}
 /* -----------------------------ENd archive.php----------------------------- */
 
 /* -----------------------------START single.php----------------------------- */
@@ -740,7 +756,8 @@ dialog[close] {
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 0.5px 3px 0px rgba(0, 0, 0, 0.1);
   margin: 1px;
   padding: 40px 0;
 }
@@ -756,7 +773,7 @@ dialog[close] {
   gap: 20px;
 }
 
-.information__content img {
+.information__content > img {
   width: 100%;
   border-radius: 13.967px;
 }
@@ -770,10 +787,21 @@ dialog[close] {
 }
 
 .information__header-author {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
+}
+
+.information__header-author-name::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .information__header-author-img {
@@ -787,6 +815,63 @@ dialog[close] {
   gap: 9px;
 }
 .information__header-date-current {
+  white-space: nowrap;
+  color: #8f8f8f;
+}
+
+.information__share {
+  position: relative;
+}
+
+.information__share-popup {
+  position: absolute;
+}
+
+.information__share-btn {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.information__share-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+  padding: 20px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0px 0.5px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 0.5px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+.information__share-popup-action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--text-m);
+}
+
+.information__bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.information__bottom-categories {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  list-style: none;
+}
+
+.information__bottom-categories a {
   color: #8f8f8f;
 }
 /* -----------------------------ENd single.php----------------------------- */
@@ -806,7 +891,38 @@ dialog[close] {
   gap: 24px;
 }
 
-.general__wrapper ul, .general__wrapper ol {
+.general__404-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.general-404-error {
+  padding: 100px 0 50px 0;
+  color: #565872;
+  font-size: var(--h2-size);
+  font-weight: 600;
+}
+
+.general-404-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 254px;
+  width: 100%;
+  border-radius: 30px;
+  border: 0.5px solid #171851;
+  color: #171851;
+  background: #f5f5f5;
+}
+
+.general-404-btn a {
+  font-size: var(--text-s);
+  font-weight: 600;
+}
+
+.general__wrapper ul,
+.general__wrapper ol {
   margin-left: 20px;
 }
 
@@ -1119,6 +1235,32 @@ dialog[close] {
   .general {
     padding: 20px;
   }
+
+  .general-404-error {
+    padding: 40px 0;
+  }
   /* -----------------------------ENd general pages----------------------------- */
+
+  /* -----------------------------START single.php----------------------------- */
+  .information {
+    box-shadow: none;
+    padding: 0 0 30px 0;
+  }
+
+  .information__header-author {
+    gap: 7px;
+  }
+
+  .information__content img {
+    border-radius: 15px;
+  }
+
+  .information__header-author-name {
+    max-width: 75px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* -----------------------------ENd single.php----------------------------- */
 }
 /* -----------------------------END Responsive 768px----------------------------- */
