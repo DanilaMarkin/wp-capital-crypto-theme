@@ -5,7 +5,7 @@ custom_header();
 <div class="layout container">
     <?php custom_sidemenu(); ?>
 
-    <main class="content">
+    <main class="content content-single">
         <?php
         yoast_breadcrumb('<div class="custom-breadcrumbs">', '</div>');
         ?>
@@ -40,7 +40,7 @@ custom_header();
                     <!-- START information__bottom -->
                     <div class="information__bottom">
                         <?php
-                        $categories = get_the_terms(get_the_ID(), 'article_category');
+                        $categories = wp_get_post_terms(get_the_ID(), 'article_category');
 
                         if (!empty($categories) && !is_wp_error($categories)) {
                             $categories = array_reverse($categories);
@@ -66,23 +66,21 @@ custom_header();
                             <!-- share popup -->
                             <div class="information__share-popup">
                                 <ul class="information__share-popup-list">
-                                    <li class="information__share-popup-item">
+                                    <li id="copyLink"
+                                        class="information__share-popup-item">
                                         <button class="information__share-popup-action">
                                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/link-icon.svg" alt="">
                                             <span>Копировать ссылку</span>
                                         </button>
                                     </li>
-                                    <li class="information__share-popup-item">
-                                        <a href="/" class="information__share-popup-action">
+                                    <li id="copyLinkInTelegram"
+                                        class="information__share-popup-item">
+                                        <a
+                                            href="https://t.me/share/url?url=<?= urlencode(get_permalink()); ?>"
+                                            class="information__share-popup-action">
                                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/share-in-tg.svg" alt="">
                                             <span>Поделиться в Telegram</span>
                                         </a>
-                                    </li>
-                                    <li class="information__share-popup-item">
-                                        <button class="information__share-popup-action">
-                                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/repeat-post.svg" alt="">
-                                            <span>Ответить на пост</span>
-                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -95,6 +93,75 @@ custom_header();
             </div>
         </section>
     </main>
+
+    <?php
+    // Проверяем, есть ли категории
+    if ($categories) {
+        // Берем ID последней категории
+        $last_term = end($categories); // Последний элемент массива
+        $term_id = $last_term->term_id;
+
+        // Запрос для получения всех постов типа 'articles' в той же категории
+        $args = array(
+            'post_type' => 'articles', // Кастомный тип записей
+            'posts_per_page' => 12, // Количество постов (можно изменить по необходимости)
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'article_category', // Кастомная таксономия
+                    'field' => 'id',
+                    'terms' => $term_id, // ID последней категории
+                    'operator' => 'IN',
+                    'include_children' => false,
+                ),
+            ),
+            'post__not_in' => array(get_the_ID()), // Исключаем текущий пост
+        );
+
+        $query = new WP_Query($args);
+
+        // Проверяем, есть ли посты
+        if ($query->have_posts()) :
+    ?>
+            <section class="recommend-slider">
+                <div class="recommend-slider__header">
+                    <p class="recommend-slider__header-title">Рекомендуем почитать</p>
+                    <div class="recommend-slider__header-arrow">
+                        <button class="recommend-slider__arrow recommend-slider__arrow-left">
+                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/arrow-recommend-slider.svg" alt="">
+                        </button>
+                        <button class="recommend-slider__arrow recommend-slider__arrow-right">
+                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/arrow-recommend-slider.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="swiper recommend-slider__content">
+                    <!-- post cart for slider -->
+                    <ul class="swiper-wrapper">
+                        <?php
+                        while ($query->have_posts()) : $query->the_post();
+                            custom_cart(); // Ваш метод отображения поста в слайдере
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
+                    </ul>
+                    <!-- post cart for slider -->
+
+                    <!-- point for slider -->
+                    <ul class="recommend-slider__points-lists swiper-pagination-custom">
+                        <li class="recommend-slider__points-item">
+                            <button data-slide="0"
+                                class="recommend-slider__point">
+                            </button>
+                        </li>
+                    </ul>
+                    <!-- point for slider -->
+                </div>
+            </section>
+    <?php
+        endif;
+    }
+    ?>
 </div>
 
 <?php

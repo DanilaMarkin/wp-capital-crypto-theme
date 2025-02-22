@@ -12,6 +12,8 @@ function capital_crypto_enqueue_styles()
     wp_enqueue_style('capital-crypto-style', get_stylesheet_uri(), array(), filemtime(get_template_directory() . '/style.css'));
     // Подключаем глобальный CSS файл
     wp_enqueue_style('capital-crypto-global', get_template_directory_uri() . '/assets/css/global.css', array(), filemtime(get_template_directory() . '/assets/css/global.css'));
+    // Подключаем CSS файл Swiper
+    wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css', array(), null);
 }
 add_action("wp_enqueue_scripts", "capital_crypto_enqueue_styles");
 // Подключение кастомных CSS стилей(конец)
@@ -23,7 +25,14 @@ function capital_crypto_enqueue_scripts()
     wp_enqueue_script('capital-crypto-global', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/main.js'), true);
 
     // Подключаем глобальный JS файл с версией по времени изменения
+    wp_enqueue_script('capital-crypto-single', get_template_directory_uri() . '/assets/js/single.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/single.js'), true);
+
+    // Подключаем JS файл для Swiper
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js', array(), null, true);
+
+    // Подключаем глобальный JS файл с версией по времени изменения
     wp_enqueue_script('capital-crypto-archive', get_template_directory_uri() . '/assets/js/archive.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/archive.js'), true);
+
     // Передаём параметры в JS
     wp_localize_script('capital-crypto-archive', 'ajax_params', array(
         'ajax_url' => admin_url('admin-ajax.php'),
@@ -128,7 +137,8 @@ add_filter('template_include', function ($template) {
 // Кастомная страница 404(конец)
 
 // Загрузка статей по кнопке "Показать еще"(начало)
-function load_more_posts() {
+function load_more_posts()
+{
     $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
 

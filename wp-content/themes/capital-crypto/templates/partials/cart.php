@@ -9,7 +9,7 @@ $image_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
 $image_title = get_the_title($image_id);
 $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
 ?>
-<li class="content__articles-item">
+<li class="swiper-slide content__articles-item">
     <img src="<?= esc_url($image_url); ?>" alt="<?= esc_attr($image_alt); ?>" title="<?= esc_attr($image_title); ?>" class="content__articles-img">
     <div class="content__articles_info">
         <a href="<?= get_permalink(); ?>">
