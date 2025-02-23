@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     const copyLinkBtn = document.getElementById("copyLink");
-    const telegramLink = document.getElementById("copyLinkInTelegram");
 
     // Копирование ссылки
     copyLinkBtn.addEventListener("click", () => {
@@ -25,14 +24,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         navigator.clipboard.writeText(pageUrl)
             .then(() => {
-                alert("123");
+                shareBtn.classList.remove("active");
+                sharePopup.classList.remove("open");
             })
             .catch(err => {
                 console.error("Ошибка копирования: ", err);
             });
 
-        shareBtn.classList.remove("active");
-        sharePopup.classList.remove("open");
     });
 
     // Слайдер по статьям

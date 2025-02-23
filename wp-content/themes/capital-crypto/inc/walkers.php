@@ -10,7 +10,13 @@ class WP_Custom_SideWalker extends Walker_Nav_Menu
         $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true); // Альтернативный текст
         $image_title = get_the_title($image_id); // Заголовок изображения
 
-        $output .= '<li class="sidemenu__item">';
+        // Определяем, является ли текущий элемент активным
+        $classes = ['sidemenu__item']; // Основной класс
+        if (in_array('current-menu-item', $item->classes)) {
+            $classes[] = 'active'; // Добавляем класс active, если это текущий элемент
+        }
+
+        $output .= '<li class="' . join(' ', $classes) . '">';
         $output .= '<a href="' . esc_url($item->url) . '" class="sidemenu__link">';
 
         // Выводим SVG-иконку, если она есть

@@ -107,6 +107,26 @@ function remove_articles_from_breadcrumbs($links)
 add_filter('wpseo_breadcrumb_links', 'remove_articles_from_breadcrumbs');
 // Кастомизация хлебных крошек, чтобы исключить "Статьи" и "Новости"(конец)
 
+// Кастомный путь до файла(начало)
+function custom_author_profile_template($template)
+{
+    // Проверяем, что находимся на странице профиля автора
+    if (is_author()) {
+        // Указываем путь к файлу, который хотим использовать для страницы профиля
+        $custom_template = locate_template('templates/author/profile.php');
+
+        // Если файл найден, используем его
+        if ($custom_template) {
+            return $custom_template;
+        }
+    }
+
+    // Возвращаем шаблон по умолчанию, если это не страница автора
+    return $template;
+}
+add_filter('template_include', 'custom_author_profile_template');
+// Кастомный путь до файла(конец)
+
 // Добавление шаблона к постам(начало)
 add_filter('theme_articles_templates', function ($templates) {
     $templates['templates/articles/single.php'] = 'Страница статьи';

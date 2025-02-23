@@ -24,7 +24,7 @@ custom_header();
                         $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_attr($author_name), array('class' => 'information__header-author-img'));
                         ?>
                         <?= $author_avatar; ?>
-                        <a href class="information__header-author-name"><?= $author_name; ?></a>
+                        <a href="<?= get_author_posts_url($author_id); ?>" class="information__header-author-name"><?= $author_name; ?></a>
                     </div>
                     <div class="information__header-date">
                         <img src="<?= get_template_directory_uri() ?>/assets/icons/watch.svg" alt="" class="information__header-date-img">
@@ -40,21 +40,17 @@ custom_header();
                     <!-- START information__bottom -->
                     <div class="information__bottom">
                         <?php
-                        $categories = wp_get_post_terms(get_the_ID(), 'article_category');
-
-                        if (!empty($categories) && !is_wp_error($categories)) {
-                            $categories = array_reverse($categories);
+                        $categories = get_the_terms(get_the_ID(), 'article_category');
                         ?>
-                            <ul class="information__bottom-categories">
-                                <?php foreach ($categories as $category) { ?>
-                                    <li class="information__bottom-categories-item">
-                                        <a href="<?= get_term_link($category); ?>">
-                                            #<?= $category->name; ?>
-                                        </a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        <?php } ?>
+                        <ul class="information__bottom-categories">
+                            <?php foreach ($categories as $category) { ?>
+                                <li class="information__bottom-categories-item">
+                                    <a href="<?= get_term_link($category); ?>">
+                                        #<?= $category->name; ?>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
                         <!-- share section -->
                         <div class="information__share">
                             <button class="information__share-btn">
