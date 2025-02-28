@@ -39,17 +39,34 @@ custom_header();
 
                     <!-- START information__bottom -->
                     <div class="information__bottom">
-                        <?php
-                        $categories = get_the_terms(get_the_ID(), 'article_category');
-                        ?>
                         <ul class="information__bottom-categories">
-                            <?php foreach ($categories as $category) { ?>
-                                <li class="information__bottom-categories-item">
-                                    <a href="<?= get_term_link($category); ?>">
-                                        #<?= $category->name; ?>
-                                    </a>
-                                </li>
-                            <?php } ?>
+                            <?php
+                            $categories = get_the_terms(get_the_ID(), 'article_category');
+                            if ($categories && !is_wp_error($categories)) {
+                                // Группируем категории по родителям
+                                $categories_by_parent = [];
+                                foreach ($categories as $category) {
+                                    $categories_by_parent[$category->parent][] = $category;
+                                }
+
+                                // Функция для вывода категорий в правильном порядке
+                                function show_categories($categories_by_parent, $parent_id = 0)
+                                {
+                                    if (empty($categories_by_parent[$parent_id])) return;
+                                    foreach ($categories_by_parent[$parent_id] as $category) {
+                            ?>
+                                        <li class="information__bottom-categories-item">
+                                            <a href="<?= get_term_link($category); ?>">#<?= $category->name; ?></a>
+                                        </li>
+                            <?php
+                                        // Рекурсивный вызов для дочерних категорий
+                                        show_categories($categories_by_parent, $category->term_id);
+                                    }
+                                }
+
+                                show_categories($categories_by_parent);
+                            }
+                            ?>
                         </ul>
                         <!-- share section -->
                         <div class="information__share">

@@ -106,7 +106,7 @@
             <ul class="signin__wrapper-list">
                 <li class="signin__wrapper-item">
                     <img src="<?= get_template_directory_uri(); ?>/assets/icons/google.svg" alt="">
-                    <span>Продолжить с Google</span>
+                    <a href="https://capital-crypto.net/wp-login.php?loginSocial=google" data-plugin="nsl" data-action="connect" data-redirect="current" data-provider="google" data-popupwidth="600" data-popupheight="600">Продолжить с Google</a>
                 </li>
                 <li class="signin__wrapper-item">
                     <img src="<?= get_template_directory_uri(); ?>/assets/icons/apple.svg" alt="">
@@ -132,7 +132,7 @@
             <ul class="signin__wrapper-list">
                 <li class="signin__wrapper-item">
                     <img src="<?= get_template_directory_uri(); ?>/assets/icons/google.svg" alt="">
-                    <span>Продолжить с Google</span>
+                    <a href="https://capital-crypto.net/wp-login.php?loginSocial=google" data-plugin="nsl" data-action="connect" data-redirect="current" data-provider="google" data-popupwidth="600" data-popupheight="600">Продолжить с Google</a>
                 </li>
                 <li class="signin__wrapper-item">
                     <img src="<?= get_template_directory_uri(); ?>/assets/icons/apple.svg" alt="">
@@ -158,11 +158,11 @@
     <dialog id="signUpModalMail" class="modal__sign">
         <p class="signin__title">Регистрация</p>
         <div class="signin__wrapper">
-            <form class="signin__wrapper-list">
-                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Имя">
-                <input id="emailSignUp" name="emailSignUp" type="email" placeholder="Почта">
+            <form class="signin__wrapper-list" id="signUpForm">
+                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Имя" required>
+                <input id="emailSignUp" name="emailSignUp" type="email" placeholder="Почта" required>
                 <div class="signin__wrapper-password">
-                    <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Пароль">
+                    <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Пароль" required>
                     <button type="button" class="modal__sign-password-btn" aria-label="Показать пароль"
                         data-img-visible="<?= get_template_directory_uri(); ?>/assets/icons/eye_visible.svg"
                         data-img-hidden="<?= get_template_directory_uri(); ?>/assets/icons/eye_not_visible.svg">
@@ -170,17 +170,14 @@
                             alt="Скрыто" class="modal__sign-password-btn-eye">
                     </button>
                 </div>
-                <button class="modal__sign-btn">
+                <button class="modal__sign-btn" type="submit">
                     Зарегистрироваться
                 </button>
             </form>
         </div>
         <div class="signup__condition">
             <span>Регистрируясь, вы соглашаетесь</span>
-            <span>
-                с
-                <a href="/" class="sign__link">условиями использования</a>
-            </span>
+            <span>с <a href="/" class="sign__link">условиями использования</a></span>
         </div>
     </dialog>
     <!-- modal sign-up mail -->
@@ -189,10 +186,10 @@
     <dialog id="signInModalMail" class="modal__sign">
         <p class="signin__title">Вход в аккаунт</p>
         <div class="signin__wrapper">
-            <form class="signin__wrapper-list">
-                <input id="emailSignUp" name="emailSignUp" type="email" placeholder="Почта">
+            <form class="signin__wrapper-list" id="signInForm">
+                <input id="emailSignIn" name="emailSignIn" type="email" placeholder="Почта" required>
                 <div class="signin__wrapper-password">
-                    <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Пароль">
+                    <input id="passwordSignIn" name="passwordSignIn" type="password" placeholder="Пароль" required>
                     <button type="button" class="modal__sign-password-btn" aria-label="Показать пароль"
                         data-img-visible="<?= get_template_directory_uri(); ?>/assets/icons/eye_visible.svg"
                         data-img-hidden="<?= get_template_directory_uri(); ?>/assets/icons/eye_not_visible.svg">
@@ -200,7 +197,7 @@
                             alt="Скрыто" class="modal__sign-password-btn-eye">
                     </button>
                 </div>
-                <button class="modal__sign-btn">
+                <button class="modal__sign-btn" type="submit">
                     Войти
                 </button>
             </form>
@@ -216,6 +213,14 @@
 <!-- Подключение admin-bar -->
 <?php wp_footer(); ?>
 <!-- Подключение admin-bar -->
+<?php
+$current_user = wp_get_current_user();
+if ( is_user_logged_in() ) {
+    echo 'Привет, ' . esc_html( $current_user->display_name ) . '!';
+} else {
+    echo 'Привет, гость!';
+}
+?>
 
 </body>
 

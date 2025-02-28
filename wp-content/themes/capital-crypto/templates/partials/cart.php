@@ -33,7 +33,14 @@ $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
                 <?php
                 $terms = get_the_terms(get_the_ID(), 'article_category');
                 if ($terms && !is_wp_error($terms)) {
-                    echo '#' . esc_html($terms[0]->name);
+                    // Сортируем категории по иерархии
+                    usort($terms, function ($a, $b) {
+                        return $a->parent - $b->parent;
+                    });
+
+                    // Получаем последнюю категорию после сортировки
+                    $last_term = end($terms);
+                    echo '#' . esc_html($last_term->name);
                 }
                 ?>
             </span>

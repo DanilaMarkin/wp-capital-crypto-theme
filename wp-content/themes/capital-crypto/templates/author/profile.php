@@ -7,28 +7,44 @@ custom_header();
 
     <main class="content">
         <h1>Профиль</h1>
-        <section class="author">
+        <?php
+        // Получаем данные об авторе
+        $author_id = get_queried_object_id();
+        $author_name = get_the_author_meta('display_name', $author_id);
+        $author_description = get_the_author_meta('description', $author_id);
+        $author_avatar = get_avatar($author_id, 147, '', 'Фото автора ' . esc_attr($author_name), array('class' => 'author-profile__avatar'));
+        $author_banner = get_the_author_meta('author_banner', $author_id);
+
+        // Получаем дату регистрации
+        $registered_date = get_the_author_meta('user_registered', $author_id);
+        // Преобразуем дату в нужный формат
+        $formatted_date = date_i18n('d.m.Y', strtotime($registered_date));
+
+        ?>
+        <section class="author-profile">
             <div class="author-banner">
-                <img src="<?= get_template_directory_uri(); ?>/assets/images/Rectangle 20.png" alt="">
+                <img src="<?= $author_banner; ?>" alt="">
                 <div class="author-banner__img-profile">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/123.jpg" alt="">
+                    <?= $author_avatar; ?>
                 </div>
             </div>
             <div class="author-information">
                 <div class="author-information__account">
                     <div class="author-information__header">
-                        <h2>Руслан</h2>
-                        <a href="#">
+                        <h2><?= $author_name; ?></h2>
+                        <a href="<?= get_permalink(228); ?>">
                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/settings.svg" alt="">
                         </a>
                     </div>
-                    <span>С 17.01.2025</span>
-                    <p>Веб дизайнер со стажем 5 лет в создании и верстке сайтов. Делюсь своим опытом и интересными историями)</p>
+                    <span>С <?= $formatted_date; ?></span>
+                    <?php if ($author_description) { ?>
+                        <p><?= $author_description; ?></p>
+                    <?php } ?>
                 </div>
                 <div class="author-information__tabs">
                     <p class="author-information__tab active">Посты</p>
                     <div class="author-information__write">
-                        <a href="#">
+                        <a href="<?= get_permalink(231); ?>">
                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/write-post.svg" alt="">
                             Написать
                         </a>
@@ -36,6 +52,37 @@ custom_header();
                 </div>
             </div>
         </section>
+        <section class="author-posts">
+            <div class="author-post__content">
+                <ul class="content__articles-list">
+                    <?php
+                    // Параметры для WP_Query
+                    $args = array(
+                        'post_type' => 'articles', // Кастомный тип записей
+                        'posts_per_page' => -1, // Количество постов на странице
+                        'author' => $author_id, // Записи только текущего автора
+                    );
+
+                    // Создаем новый запрос
+                    $query = new WP_Query($args);
+
+                    // Проверяем наличие постов
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post();
+                            custom_cart();
+                        endwhile;
+                        wp_reset_postdata();
+                    else :
+                        echo '<p>У этого автора пока нет публикаций.</p>';
+                    endif;
+
+                    // Восстанавливаем глобальную переменную поста
+                    wp_reset_postdata();
+                    ?>
+                </ul>
+            </div>
+        </section>
+
     </main>
 </div>
 

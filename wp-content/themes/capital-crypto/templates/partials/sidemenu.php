@@ -6,6 +6,16 @@
             Аирдроп от ByBit
             <img src="<?= get_template_directory_uri(); ?>/assets/icons/arrow-right.svg" alt="" class="sidemenu__promo-arrow-next">
         </button>
+        <ul class="sidemenu__list sidemenu__categories sidemenu__general">
+            <?php
+            wp_nav_menu([
+                "theme_location" => 'general-menu',
+                "container" => false,
+                "items_wrap" => '%3$s',
+                "walker" => new WP_Custom_General_SideWalker()
+            ]);
+            ?>
+        </ul>
         <ul class="sidemenu__list sidemenu__categories">
             <?php
             wp_nav_menu([

@@ -79,4 +79,54 @@ passwordToggles.forEach((toggleButton) => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  // Отправка данных формы регистрации
+  document.getElementById("signUpForm").addEventListener("submit", function(event) {
+      event.preventDefault();
 
+      const name = document.getElementById("nameSignUp").value;
+      const email = document.getElementById("emailSignUp").value;
+      const password = document.getElementById("passwordSignUp").value;
+
+      // Выполнение Ajax запроса для регистрации
+      const data = {
+          action: 'register_user', // Имя функции для обработки регистрации
+          name: name,
+          email: email,
+          password: password
+      };
+
+      jQuery.post(ajax_params.ajax_url, data, function(response) {
+          if (response.success) {
+              alert("Регистрация прошла успешно!");
+              document.getElementById("signUpModalMail").close();
+          } else {
+              false;
+          }
+      });
+  });
+
+  // Отправка данных формы входа
+  document.getElementById("signInForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("emailSignIn").value;
+      const password = document.getElementById("passwordSignIn").value;
+
+      // Выполнение Ajax запроса для входа
+      const data = {
+          action: 'login_user', // Имя функции для обработки входа
+          email: email,
+          password: password
+      };
+
+      jQuery.post(ajax_params.ajax_url, data, function(response) {
+          if (response.success) {
+              alert("Вы успешно вошли в аккаунт!");
+              document.getElementById("signInModalMail").close();
+          } else {
+              false;
+          }
+      });
+  });
+});
