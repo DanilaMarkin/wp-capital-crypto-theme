@@ -8,9 +8,10 @@ custom_header();
     <main class="content">
         <h1>Профиль</h1>
         <?php
+        $current_user = wp_get_current_user();
         // Получаем данные об авторе
         $author_id = get_queried_object_id();
-        $author_name = get_the_author_meta('display_name', $author_id);
+        $author_name = get_the_author_meta('first_name', $author_id);
         $author_description = get_the_author_meta('description', $author_id);
         $author_avatar = get_avatar($author_id, 147, '', 'Фото автора ' . esc_attr($author_name), array('class' => 'author-profile__avatar'));
         $author_banner = get_the_author_meta('author_banner', $author_id);
@@ -19,11 +20,16 @@ custom_header();
         $registered_date = get_the_author_meta('user_registered', $author_id);
         // Преобразуем дату в нужный формат
         $formatted_date = date_i18n('d.m.Y', strtotime($registered_date));
-
         ?>
         <section class="author-profile">
             <div class="author-banner">
-                <img src="<?= $author_banner; ?>" alt="">
+                <?php
+                // Если есть баннер, то его выводить на страницу иначе градиент
+                if ($author_banner) { ?>
+                    <img src="<?= $author_banner; ?>" alt="">
+                <?php } else { ?>
+                    <div class="author-banner-placeholder"></div>
+                <?php } ?>
                 <div class="author-banner__img-profile">
                     <?= $author_avatar; ?>
                 </div>
@@ -32,9 +38,13 @@ custom_header();
                 <div class="author-information__account">
                     <div class="author-information__header">
                         <h2><?= $author_name; ?></h2>
-                        <a href="<?= get_permalink(228); ?>">
-                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/settings.svg" alt="">
-                        </a>
+                        <?php
+                        // Если пользователь совпадает, то показывать системные настройки
+                        if (is_user_logged_in() && $current_user->ID === $author_id) { ?>
+                            <a href="<?= get_permalink(228); ?>">
+                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/settings.svg" alt="">
+                            </a>
+                        <?php } ?>
                     </div>
                     <span>С <?= $formatted_date; ?></span>
                     <?php if ($author_description) { ?>
@@ -43,12 +53,16 @@ custom_header();
                 </div>
                 <div class="author-information__tabs">
                     <p class="author-information__tab active">Посты</p>
-                    <div class="author-information__write">
-                        <a href="<?= get_permalink(231); ?>">
-                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/write-post.svg" alt="">
-                            Написать
-                        </a>
-                    </div>
+                    <?php
+                    // Если пользователь совпадает, то показывать блок "Написать"
+                    if (is_user_logged_in() && $current_user->ID === $author_id) { ?>
+                        <div class="author-information__write">
+                            <a href="<?= get_permalink(231); ?>">
+                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/write-post.svg" alt="">
+                                Написать
+                            </a>
+                        </div>
+                    <?php  } ?>
                 </div>
             </div>
         </section>

@@ -1303,6 +1303,31 @@ dialog[close] {
   object-fit: cover; /* Обрезаем изображение, чтобы оно не искажалось */
 }
 
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.author-banner-placeholder {
+  width: 100%;
+  height: 100%;
+  /* Высота блока */
+  background: linear-gradient(270deg, #667eea, #764ba2, #ff758c);
+  background-size: 300% 300%;
+  /* Растягиваем градиент для плавного эффекта */
+  animation: gradientAnimation 6s infinite linear;
+  border-radius: 13.967px 13.967px 0 0;
+}
+
 .author-banner__img-profile {
   position: absolute;
   top: 50%;

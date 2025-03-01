@@ -22,10 +22,21 @@
                         </a>
                     </li>
                     <li>
-                        <button id="openSignIn" class="footer__menu-btn">
-                            <img src="<?= get_template_directory_uri(); ?>/assets/icons/author_profile.svg" alt="">
-                            Профиль автора
-                        </button>
+                        <?php
+                        $current_user = wp_get_current_user();
+                        // Если пользователь авторизирован, переходить в профиль
+                        if (is_user_logged_in()) {
+                        ?>
+                            <a href="<?= get_author_posts_url($current_user->ID); ?>" class="footer__menu-btn">
+                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/author_profile.svg" alt="">
+                                Профиль автора
+                            </a>
+                        <?php } else { ?>
+                            <button id="openSignIn" class="footer__menu-btn">
+                                <img src="<?= get_template_directory_uri(); ?>/assets/icons/author_profile.svg" alt="">
+                                Профиль автора
+                            </button>
+                        <?php } ?>
                     </li>
                     <?php if (get_permalink(104)) { ?>
                         <li class="footer__menu-link-policy-item">
@@ -159,10 +170,10 @@
         <p class="signin__title">Регистрация</p>
         <div class="signin__wrapper">
             <form class="signin__wrapper-list" id="signUpForm">
-                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Имя" required>
-                <input id="emailSignUp" name="emailSignUp" type="email" placeholder="Почта" required>
+                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Имя">
+                <input id="emailSignUp" name="emailSignUp" type="email" placeholder="Почта">
                 <div class="signin__wrapper-password">
-                    <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Пароль" required>
+                    <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Пароль">
                     <button type="button" class="modal__sign-password-btn" aria-label="Показать пароль"
                         data-img-visible="<?= get_template_directory_uri(); ?>/assets/icons/eye_visible.svg"
                         data-img-hidden="<?= get_template_directory_uri(); ?>/assets/icons/eye_not_visible.svg">
@@ -187,9 +198,9 @@
         <p class="signin__title">Вход в аккаунт</p>
         <div class="signin__wrapper">
             <form class="signin__wrapper-list" id="signInForm">
-                <input id="emailSignIn" name="emailSignIn" type="email" placeholder="Почта" required>
+                <input id="emailSignIn" name="emailSignIn" type="email" placeholder="Почта">
                 <div class="signin__wrapper-password">
-                    <input id="passwordSignIn" name="passwordSignIn" type="password" placeholder="Пароль" required>
+                    <input id="passwordSignIn" name="passwordSignIn" type="password" placeholder="Пароль">
                     <button type="button" class="modal__sign-password-btn" aria-label="Показать пароль"
                         data-img-visible="<?= get_template_directory_uri(); ?>/assets/icons/eye_visible.svg"
                         data-img-hidden="<?= get_template_directory_uri(); ?>/assets/icons/eye_not_visible.svg">
@@ -213,14 +224,6 @@
 <!-- Подключение admin-bar -->
 <?php wp_footer(); ?>
 <!-- Подключение admin-bar -->
-<?php
-$current_user = wp_get_current_user();
-if ( is_user_logged_in() ) {
-    echo 'Привет, ' . esc_html( $current_user->display_name ) . '!';
-} else {
-    echo 'Привет, гость!';
-}
-?>
 
 </body>
 

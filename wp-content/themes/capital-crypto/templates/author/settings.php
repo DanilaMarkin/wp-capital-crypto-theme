@@ -1,5 +1,7 @@
 <?php
 custom_header();
+
+$current_user = wp_get_current_user();
 ?>
 
 <div class="layout container">
@@ -32,7 +34,7 @@ custom_header();
                         </button>
                     </li>
                     <li class="settings__item">
-                        <a href="#" class="settings__get-out">
+                        <a href="<?= wp_logout_url(home_url()); ?>" class="settings__get-out">
                             Выйти из аккаунта
                         </a>
                     </li>
@@ -74,38 +76,49 @@ custom_header();
                 </button>
                 <p class="settings-general__header-title">Профиль</p>
             </div>
-            <div class="settings__profile">
+            <form method="POST" enctype="multipart/form-data" class="settings__profile">
                 <ul class="profile__List settings__list">
                     <li class="profile__item">
                         <p>Обложка</p>
                         <label class="upload-label upload-label__banner">
-                            <input type="file" 
-                            accept="image/*" 
-                            class="upload-input" 
-                            onchange="previewImage(event, 'cover-preview')">
+                            <input type="file"
+                                accept="image/*"
+                                name="cover_image"
+                                class="upload-input"
+                                onchange="previewImage(event, 'cover-preview')">
                             <img src="<?= get_template_directory_uri(); ?>/assets/images/add-banner.webp" id="cover-preview" class="image-preview-banner hidden" alt="Предпросмотр обложки">
                         </label>
                     </li>
                     <li class="profile__item">
                         <p>Аватарка</p>
                         <label class="upload-label upload-label__avatar">
-                            <input type="file" 
-                            accept="image/*" 
-                            class="upload-input" 
-                            onchange="previewImage(event, 'avatar-preview')">
+                            <input type="file"
+                                accept="image/*"
+                                name="avatar_image"
+                                class="upload-input"
+                                onchange="previewImage(event, 'avatar-preview')">
                             <img src="<?= get_template_directory_uri(); ?>/assets/images/add-avatart.webp" id="avatar-preview" class="image-preview-avatar hidden" alt="Предпросмотр аватарки">
                         </label>
                     </li>
                     <li class="profile__item">
                         <p>Имя</p>
-                        <input type="text" value="Руслан" class=" profile__item-input">
+                        <input type="text"
+                            name="first_name"
+                            value="<?= esc_attr($current_user->first_name) ?>"
+                            class=" profile__item-input">
                     </li>
                     <li class="profile__item">
                         <p>Описание</p>
-                        <textarea placeholder="Пара слов о себе" class=" profile__item-textarea"></textarea>
+                        <textarea
+                            name="description"
+                            placeholder="Пару слов о себе"
+                            class="profile__item-textarea"><?= esc_textarea(get_the_author_meta('description', $current_user->ID)); ?></textarea>
                     </li>
+                    <button type="submit" name="save_profile" class="footer__menu-btn">
+                        Сохранить
+                    </button>
                 </ul>
-            </div>
+            </form>
         </section>
     </main>
 </div>
@@ -151,5 +164,4 @@ custom_footer();
         }
         reader.readAsDataURL(event.target.files[0]);
     }
-
 </script>
