@@ -36,11 +36,10 @@ function capital_crypto_enqueue_scripts()
     // Подключаем глобальный JS файл с версией по времени изменения
     wp_enqueue_script('capital-crypto-archive', get_template_directory_uri() . '/assets/js/archive.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/archive.js'), true);
 
-    // Передаём параметры в JS
-    wp_localize_script('capital-crypto-archive', 'ajax_params', array(
-        'ajax_url' => admin_url('admin-ajax.php'),
-    ));
+    // Подключаем глобальный JS файл с версией по времени изменения
+    wp_enqueue_script('capital-crypto-settings', get_template_directory_uri() . '/assets/js/settings.js', array('jquery'), filemtime(get_template_directory() . '/assets/js/settings.js'), true);
 
+    // Передаём параметры в JS
     wp_localize_script('capital-crypto-global', 'ajax_params', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
@@ -281,8 +280,8 @@ function restrict_admin_access()
         // Скрыть админ-бар
         add_filter('show_admin_bar', '__return_false');
 
-        // Перенаправить на главную страницу при попытке зайти в админку
-        if (is_admin()) {
+        // Исключение для AJAX-запросов
+        if (is_admin() && !(defined('DOING_AJAX') && DOING_AJAX)) {
             wp_redirect(home_url());
             exit;
         }
@@ -339,3 +338,49 @@ function handle_login()
 }
 add_action('wp_ajax_login_user', 'handle_login');
 add_action('wp_ajax_nopriv_login_user', 'handle_login');
+
+// Изменение профиля (начало)
+function update_user_profile()
+{
+    if (!is_user_logged_in()) {
+        wp_send_json(['message' => 'Ошибка: Пользователь не авторизован'], 403);
+    }
+
+    $user_id = get_current_user_id();
+    $update_data = [];
+
+    if (!empty($_POST['first_name'])) {
+        $update_data['first_name'] = sanitize_text_field($_POST['first_name']);
+    }
+    if (!empty($_POST['description'])) {
+        $update_data['description'] = sanitize_textarea_field($_POST['description']);
+    }
+
+    foreach ($update_data as $key => $value) {
+        update_user_meta($user_id, $key, $value);
+    }
+
+    $response = ['message' => 'Данные обновлены'];
+
+    if (!empty($_FILES['avatar_image']['name'])) {
+        $avatar_id = media_handle_upload('avatar_image', 0);
+        if (!is_wp_error($avatar_id)) {
+            update_user_meta($user_id, 'avatar_image', wp_get_attachment_url($avatar_id)); // Обновление мета-поля
+            $response['avatar_url'] = wp_get_attachment_url($avatar_id);  // Возвращаем новый URL аватарки
+        }
+    }
+
+    if (!empty($_FILES['cover_image']['name'])) {
+        $cover_id = media_handle_upload('cover_image', 0);
+        if (!is_wp_error($cover_id)) {
+            update_user_meta($user_id, 'author_banner', wp_get_attachment_url($cover_id));
+            $response['cover_url'] = wp_get_attachment_url($cover_id);
+        }
+    }
+
+    wp_send_json($response);
+}
+add_action('wp_ajax_update_user_profile', 'update_user_profile');
+add_action('wp_ajax_nopriv_update_user_profile', 'update_user_profile'); // Если неавторизованные пользователи должны иметь доступ
+
+// Изменение профиля (конец)

@@ -17,10 +17,12 @@ const signUpModalMail = document.getElementById("signUpModalMail");
 const signInModalMail = document.getElementById("signInModalMail");
 const openBtn = document.getElementById("openSignIn");
 
-openBtn.addEventListener("click", () => {
-  signInModal.show(); // Открытие модального окна
-  overlay.classList.add("active"); // Показываем затемнение
-});
+if (openBtn) {
+  openBtn.addEventListener("click", () => {
+    signInModal.show(); // Открытие модального окна
+    overlay.classList.add("active"); // Показываем затемнение
+  });
+}
 
 function closeModal() {
   signInModal.close(); // Закрытие модального окна

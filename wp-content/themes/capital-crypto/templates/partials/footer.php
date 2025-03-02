@@ -3,7 +3,7 @@
         <div class="footer__conainer">
             <div class="footer__menu">
                 <ul class="footer__menu-list">
-                    <li class="footer__menu-item">
+                    <!-- <li class="footer__menu-item">
                         <a href="" class="footer__menu-link">
                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/crypto_exchanges.svg" alt="">
                             <p>Криптобиржи</p>
@@ -20,7 +20,7 @@
                             <img src="<?= get_template_directory_uri(); ?>/assets/icons/teach.svg" alt="">
                             <p>Обучение</p>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <?php
                         $current_user = wp_get_current_user();

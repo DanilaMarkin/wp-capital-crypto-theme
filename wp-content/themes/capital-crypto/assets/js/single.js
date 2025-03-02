@@ -3,35 +3,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const sharePopup = document.querySelector(".information__share-popup");
 
     // Открытие и закрытие попапа
-    shareBtn.addEventListener("click", () => {
-        shareBtn.classList.toggle("active");
-        sharePopup.classList.toggle("open");
-    });
+    if (shareBtn) {
+        shareBtn.addEventListener("click", () => {
+            shareBtn.classList.toggle("active");
+            sharePopup.classList.toggle("open");
+        });
+    }
     
-    document.addEventListener("click", (event) => {
-        if(!sharePopup.contains(event.target) && !shareBtn.contains(event.target)) {
-            shareBtn.classList.remove("active");
-            sharePopup.classList.remove("open");
-        }
-    })
+    if (shareBtn && sharePopup) {
+        document.addEventListener("click", (event) => {
+            if(!sharePopup.contains(event.target) && !shareBtn.contains(event.target)) {
+                shareBtn.classList.remove("active");
+                sharePopup.classList.remove("open");
+            }
+        })
+    }
 
     const copyLinkBtn = document.getElementById("copyLink");
 
     // Копирование ссылки
-    copyLinkBtn.addEventListener("click", () => {
-        // Получаем текущий URL страницы
-        const pageUrl = window.location.href;
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener("click", () => {
+            // Получаем текущий URL страницы
+            const pageUrl = window.location.href;
 
-        navigator.clipboard.writeText(pageUrl)
-            .then(() => {
-                shareBtn.classList.remove("active");
-                sharePopup.classList.remove("open");
-            })
-            .catch(err => {
-                console.error("Ошибка копирования: ", err);
-            });
-
-    });
+            navigator.clipboard.writeText(pageUrl)
+                .then(() => {
+                    shareBtn.classList.remove("active");
+                    sharePopup.classList.remove("open");
+                })
+                .catch(err => {
+                    console.error("Ошибка копирования: ", err);
+                });
+        });
+    }
 
     // Слайдер по статьям
     const swiper = new Swiper('.recommend-slider__content', {

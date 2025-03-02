@@ -76,47 +76,36 @@ $current_user = wp_get_current_user();
                 </button>
                 <p class="settings-general__header-title">Профиль</p>
             </div>
-            <form method="POST" enctype="multipart/form-data" class="settings__profile">
+            <?php
+            $user_id = get_current_user_id();
+            $avatar = get_user_meta($user_id, 'avatar_image', true) ?: get_template_directory_uri() . '/assets/images/add-avatart.webp';
+            $cover = get_user_meta($user_id, 'author_banner', true) ?: get_template_directory_uri() . '/assets/images/add-banner.webp';
+            ?>
+            <form id="updateProfile" enctype="multipart/form-data" class="settings__profile">
                 <ul class="profile__List settings__list">
                     <li class="profile__item">
                         <p>Обложка</p>
                         <label class="upload-label upload-label__banner">
-                            <input type="file"
-                                accept="image/*"
-                                name="cover_image"
-                                class="upload-input"
-                                onchange="previewImage(event, 'cover-preview')">
-                            <img src="<?= get_template_directory_uri(); ?>/assets/images/add-banner.webp" id="cover-preview" class="image-preview-banner hidden" alt="Предпросмотр обложки">
+                            <input type="file" accept="image/*" name="cover_image" class="upload-input" onchange="previewImage(event, 'cover-preview')">
+                            <img src="<?= esc_url($cover); ?>" id="cover-preview" class="image-preview-banner" alt="Предпросмотр обложки">
                         </label>
                     </li>
                     <li class="profile__item">
                         <p>Аватарка</p>
                         <label class="upload-label upload-label__avatar">
-                            <input type="file"
-                                accept="image/*"
-                                name="avatar_image"
-                                class="upload-input"
-                                onchange="previewImage(event, 'avatar-preview')">
-                            <img src="<?= get_template_directory_uri(); ?>/assets/images/add-avatart.webp" id="avatar-preview" class="image-preview-avatar hidden" alt="Предпросмотр аватарки">
+                            <input type="file" accept="image/*" name="avatar_image" class="upload-input" onchange="previewImage(event, 'avatar-preview')">
+                            <img src="<?= esc_url($avatar); ?>" id="avatar-preview" class="image-preview-avatar" alt="Предпросмотр аватарки">
                         </label>
                     </li>
                     <li class="profile__item">
                         <p>Имя</p>
-                        <input type="text"
-                            name="first_name"
-                            value="<?= esc_attr($current_user->first_name) ?>"
-                            class=" profile__item-input">
+                        <input type="text" name="first_name" value="<?= esc_attr(get_the_author_meta('first_name', $user_id)); ?>" class="profile__item-input">
                     </li>
                     <li class="profile__item">
                         <p>Описание</p>
-                        <textarea
-                            name="description"
-                            placeholder="Пару слов о себе"
-                            class="profile__item-textarea"><?= esc_textarea(get_the_author_meta('description', $current_user->ID)); ?></textarea>
+                        <textarea name="description" placeholder="Пару слов о себе" class="profile__item-textarea"><?= esc_textarea(get_the_author_meta('description', $user_id)); ?></textarea>
                     </li>
-                    <button type="submit" name="save_profile" class="footer__menu-btn">
-                        Сохранить
-                    </button>
+                    <button type="submit" class="footer__menu-btn">Сохранить</button>
                 </ul>
             </form>
         </section>

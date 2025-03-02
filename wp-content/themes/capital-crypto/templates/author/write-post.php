@@ -14,13 +14,14 @@ $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_a
         yoast_breadcrumb('<div class="custom-breadcrumbs">', '</div>');
         ?>
         <section class="settings">
-            <form class="write-post__content">
+            <form class="write-post__content" id="submit-post-form" method="post">
                 <div class="write-post__header">
                     <?= $author_avatar; ?>
-                    <span class="write-post__header-title">Руслан</span>
+                    <span class="write-post__header-title"><?= esc_html($author_name); ?></span>
                 </div>
-                <input type="text" placeholder="Заголовок" class="write-post__title">
-                <button class="write-post__send">
+                <input type="text" placeholder="Заголовок" name="post_title" class="write-post__title" required>
+                <div id="gutenberg-editor-container"></div> <!-- Место для редактора Gutenberg -->
+                <button class="write-post__send" type="submit">
                     Опубликовать
                 </button>
             </form>
