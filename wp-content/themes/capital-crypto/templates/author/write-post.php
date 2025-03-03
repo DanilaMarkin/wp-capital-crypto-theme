@@ -10,9 +10,8 @@ $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_a
     <?php custom_sidemenu(); ?>
 
     <main class="content">
-        <?php
-        yoast_breadcrumb('<div class="custom-breadcrumbs">', '</div>');
-        ?>
+        <?php yoast_breadcrumb('<div class="custom-breadcrumbs">', '</div>'); ?>
+
         <section class="settings">
             <form class="write-post__content" id="submit-post-form" method="post">
                 <div class="write-post__header">
@@ -20,8 +19,13 @@ $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_a
                     <span class="write-post__header-title"><?= esc_html($author_name); ?></span>
                 </div>
                 <input type="text" placeholder="Заголовок" name="post_title" class="write-post__title" required>
-                <div id="gutenberg-editor-container"></div> <!-- Место для редактора Gutenberg -->
-                <button class="write-post__send" type="submit">
+
+                <?php 
+                echo do_shortcode('[fe_form id="354"]');
+                ?>
+                <div id="editorjs"></div>
+
+                <button class="write-post__send" type="submit" name="submit_post">
                     Опубликовать
                 </button>
             </form>
@@ -29,6 +33,4 @@ $author_avatar = get_avatar($author_id, 52, '', 'Фото автора ' . esc_a
     </main>
 </div>
 
-<?php
-custom_footer();
-?>
+<?php custom_footer(); ?>

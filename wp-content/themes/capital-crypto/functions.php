@@ -43,6 +43,7 @@ function capital_crypto_enqueue_scripts()
     wp_localize_script('capital-crypto-global', 'ajax_params', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
+
 }
 add_action("wp_enqueue_scripts", "capital_crypto_enqueue_scripts");
 // Подключение кастомных JS-скриптов (конец)
@@ -383,4 +384,4 @@ function update_user_profile()
 add_action('wp_ajax_update_user_profile', 'update_user_profile');
 add_action('wp_ajax_nopriv_update_user_profile', 'update_user_profile'); // Если неавторизованные пользователи должны иметь доступ
 
-// Изменение профиля (конец)
+    
