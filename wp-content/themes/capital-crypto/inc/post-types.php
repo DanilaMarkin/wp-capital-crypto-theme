@@ -10,7 +10,7 @@ function custom_post_types()
         'public' => true,
         'has_archive' => true,
         'show_in_nav_menus' => true, // Должно быть true!
-        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author'),
         // Поддержка Guttenberg
         'show_in_rest' => true,
         'rewrite' => array('slug' => 'articles'),
@@ -25,7 +25,7 @@ function custom_post_types()
         'public' => true,
         'has_archive' => true,
         'show_in_nav_menus' => true, // Должно быть true!
-        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments'),
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'comments', 'author'),
         // Поддержка Guttenberg
         'show_in_rest' => true,
     ));

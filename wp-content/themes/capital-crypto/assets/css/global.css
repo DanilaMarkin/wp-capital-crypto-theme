@@ -1592,6 +1592,12 @@ dialog[close] {
   border: 0.466px solid #171851;
   background: #171851;
 }
+
+#editorjs {
+  display: flex;
+  flex-direction: column;
+}
+
 /* END write--post.php */
 /* -----------------------------ENd profile.php, settings.php----------------------------- */
 

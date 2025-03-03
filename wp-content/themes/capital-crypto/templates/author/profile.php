@@ -14,7 +14,7 @@ custom_header();
         $author_name = get_the_author_meta('first_name', $author_id);
         $author_description = get_the_author_meta('description', $author_id);
         $author_avatar = get_avatar($author_id, 147, '', 'Фото автора ' . esc_attr($author_name), array('class' => 'author-profile__avatar'));
-        
+
         $author_banner = get_the_author_meta('author_banner', $author_id);
 
         // Получаем дату регистрации

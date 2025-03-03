@@ -43,7 +43,6 @@ function capital_crypto_enqueue_scripts()
     wp_localize_script('capital-crypto-global', 'ajax_params', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
-
 }
 add_action("wp_enqueue_scripts", "capital_crypto_enqueue_scripts");
 // Подключение кастомных JS-скриптов (конец)
@@ -384,4 +383,98 @@ function update_user_profile()
 add_action('wp_ajax_update_user_profile', 'update_user_profile');
 add_action('wp_ajax_nopriv_update_user_profile', 'update_user_profile'); // Если неавторизованные пользователи должны иметь доступ
 
-    
+
+add_action('rest_api_init', function () {
+    register_rest_route('custom/v1', '/uploadFile', [
+        'methods' => 'POST',
+        'callback' => 'upload_image_to_media_library',
+        'permission_callback' => '__return_true', // Настройте правильные права доступа
+    ]);
+});
+function upload_image_to_media_library(WP_REST_Request $request)
+{
+    require_once ABSPATH . 'wp-admin/includes/file.php'; // Подключаем wp_handle_upload()
+    require_once ABSPATH . 'wp-admin/includes/media.php'; // Подключаем медиа-функции
+    require_once ABSPATH . 'wp-admin/includes/image.php'; // Подключаем обработку изображений
+
+    if (empty($_FILES['file'])) {
+        return new WP_Error('no_file', 'No file sent', ['status' => 400]);
+    }
+
+    $file = $_FILES['file'];
+    error_log(print_r($file, true)); // Логируем файл для проверки
+
+    // Загружаем файл в медиатеку
+    $upload = wp_handle_upload($file, ['test_form' => false]);
+
+    if (isset($upload['error'])) {
+        return new WP_Error('upload_error', $upload['error'], ['status' => 400]);
+    }
+
+    // Создаем вложение
+    $attachment_id = wp_insert_attachment([
+        'post_mime_type' => wp_check_filetype($upload['file'])['type'],
+        'post_title' => sanitize_file_name($file['name']),
+        'post_content' => '',
+        'post_status' => 'inherit',
+    ], $upload['file']);
+
+    // Генерируем метаданные
+    $attachment_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
+    wp_update_attachment_metadata($attachment_id, $attachment_data);
+
+    return rest_ensure_response([
+        'success' => 1,
+        'file' => [
+            'url' => wp_get_attachment_url($attachment_id),
+        ],
+    ]);
+}
+function handle_custom_post_submission() {
+    // Проверяем, отправлена ли форма
+    if (isset($_POST['submit_post'])) {
+        // Проверяем nonce для безопасности
+        if (!isset($_POST['post_nonce']) || !wp_verify_nonce($_POST['post_nonce'], 'submit_post_nonce')) {
+            wp_die('Ошибка безопасности. Попробуйте снова.');
+        }
+
+        // Получаем данные из формы
+        $post_title = sanitize_text_field($_POST['post_title']);
+        $post_content = isset($_POST['post_content']) ? wp_kses_post($_POST['post_content']) : '';
+
+        if (empty($post_title) || empty($post_content)) {
+            wp_die('Заполните все поля!');
+        }
+
+        // Создаем новый пост
+        $post_id = wp_insert_post([
+            'post_title'   => $post_title,
+            'post_content' => $post_content,
+            'post_status'  => 'pending', // Ожидание модерации (можно заменить на 'publish')
+            'post_author'  => get_current_user_id(),
+            'post_type'    => 'post',
+        ]);
+
+        if ($post_id) {
+            // Если есть изображение — загружаем
+            if (!empty($_FILES['post_thumbnail']['name'])) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+
+                $attachment_id = media_handle_upload('post_thumbnail', $post_id);
+
+                if (!is_wp_error($attachment_id)) {
+                    set_post_thumbnail($post_id, $attachment_id);
+                }
+            }
+
+            // Перенаправляем после успешной публикации
+            wp_redirect(get_permalink($post_id));
+            exit;
+        } else {
+            wp_die('Ошибка при публикации поста.');
+        }
+    }
+}
+add_action('init', 'handle_custom_post_submission');
